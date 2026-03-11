@@ -171,6 +171,65 @@ input:focus, select:focus {
     box-shadow: var(--glass-shadow);
 }
 
+/* Sección de Estadísticas */
+.stats-section {
+    margin-top: 30px;
+    padding: 24px;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    animation: fadeIn 0.5s ease 0.2s both;
+}
+
+.stats-section h3 {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stats-table th, .stats-table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stats-table tr:last-child td {
+    border-bottom: none;
+}
+
+.stats-table th {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stats-table td {
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.positive {
+    color: #10b981; /* Esmeralda */
+    font-weight: 600;
+}
+
+.negative {
+    color: #f43f5e; /* Rosa fuerte */
+    font-weight: 600;
+}
+
+.positive i, .negative i {
+    margin-left: 8px;
+    font-size: 0.9rem;
+}
+
 .error-container {
     text-align: center;
 }

@@ -110,8 +110,24 @@ def index():
             
             historical = get_historical_data(from_curr, to_curr)
             chart_url = None
+            stats = None
+            
             if historical:
                 chart_url = generate_chart(historical, from_curr, to_curr)
+                # Calculate Statistics
+                rates = historical.get('rates', {})
+                dates = sorted(rates.keys())
+                values = [rates[date][to_curr] for date in dates]
+                
+                if values:
+                    avg_val = sum(values) / len(values)
+                    abs_change = values[-1] - values[0]
+                    pct_change = (abs_change / values[0]) * 100
+                    stats = {
+                        'avg': avg_val,
+                        'abs': abs_change,
+                        'pct': pct_change
+                    }
 
             return render_template('index.html', 
                                  currencies=currencies,
@@ -121,7 +137,8 @@ def index():
                                  from_curr=from_curr,
                                  to_curr=to_curr,
                                  amount=amount,
-                                 chart_url=chart_url)
+                                 chart_url=chart_url,
+                                 stats=stats)
         except Exception as e:
             return render_template('error.html', message=str(e))
 

@@ -65,6 +65,40 @@
                     <img src="data:image/png;base64,{{ chart_url }}" alt="Gráfico de histórico">
                 </div>
                 {% endif %}
+
+                {% if stats %}
+                <div class="stats-section">
+                    <h3>Estadísticas del Período (30 días)</h3>
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Métrica</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Valor Medio</td>
+                                <td>{{ "{:,.4f}".format(stats.avg) }} {{ to_curr }}</td>
+                            </tr>
+                            <tr>
+                                <td>Variación Absoluta</td>
+                                <td class="{% if stats.abs >= 0 %}positive{% else %}negative{% endif %}">
+                                    {{ "{:+,.4f}".format(stats.abs) }} {{ to_curr }}
+                                    <i class="fas fa-caret-{% if stats.abs >= 0 %}up{% else %}down{% endif %}"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Variación Porcentual</td>
+                                <td class="{% if stats.pct >= 0 %}positive{% else %}negative{% endif %}">
+                                    {{ "{:+,.2f}%".format(stats.pct) }}
+                                    <i class="fas fa-caret-{% if stats.pct >= 0 %}up{% else %}down{% endif %}"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
             </div>
             {% endif %}
         </div>
