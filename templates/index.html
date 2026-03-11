@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Divisas - Premium</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="glass-card">
+            <h1>Conversor de Divisas</h1>
+            
+            <form method="POST" id="converterForm" class="converter-form">
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label for="amount">Cantidad</label>
+                    <input type="number" step="0.01" name="amount" id="amount" value="{{ amount }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="from_curr">Desde</label>
+                    <select name="from_curr" id="from_curr">
+                        {% for code, name in currencies.items() %}
+                            <option value="{{ code }}" {% if from_curr == code %}selected{% endif %}>{{ code }} - {{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="button" class="swap-btn" id="swapBtn">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+
+                <div class="form-group">
+                    <label for="to_curr">Hacia</label>
+                    <select name="to_curr" id="to_curr">
+                        {% for code, name in currencies.items() %}
+                            <option value="{{ code }}" {% if to_curr == code %}selected{% endif %}>{{ code }} - {{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Convertir Ahora</button>
+            </form>
+
+            {% if result is defined %}
+            <div class="result-section">
+                <div class="result-main">
+                    {{ "{:,.2f}".format(amount) }} {{ from_curr }} = {{ "{:,.2f}".format(result) }} {{ to_curr }}
+                </div>
+                <div class="result-unit">
+                    1 {{ from_curr }} = {{ "{:,.4f}".format(unit_rate) }} {{ to_curr }}
+                </div>
+                <div class="result-date">
+                    Actualizado el: {{ date }} (BCE)
+                </div>
+
+                {% if chart_url %}
+                <div class="chart-section">
+                    <h3>Tendencia últimos 30 días</h3>
+                    <img src="data:image/png;base64,{{ chart_url }}" alt="Gráfico de histórico">
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('swapBtn').addEventListener('click', function() {
+            const fromSelect = document.getElementById('from_curr');
+            const toSelect = document.getElementById('to_curr');
+            const tempValue = fromSelect.value;
+            fromSelect.value = toSelect.value;
+            toSelect.value = tempValue;
+        });
+    </script>
+</body>
+</html>
